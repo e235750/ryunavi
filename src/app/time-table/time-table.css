@@ -1,0 +1,9 @@
+.table {
+  @apply absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-55%] w-full h-[70%];
+}
+.table-h {
+  @apply text-xl text-[#555] font-normal border-b border-r;
+}
+.table-td {
+  @apply w-16 border-b border-r;
+}
