@@ -3,7 +3,7 @@ import { useRef } from 'react'
 
 interface Props {
     position?: string
-    setActive: Function
+    setActive: (active: boolean) => void
 }
 
 const button = ({ setActive, position }: Props) => {

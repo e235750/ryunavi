@@ -1,0 +1,11 @@
+.table-td-header {
+  @apply border border-green-800 bg-[#009c31] text-white font-bold text-sm px-3;
+}
+
+.table-td-contents {
+  @apply border border-green-800 px-3;
+}
+
+.link a {
+  @apply text-green-600 hover:border-b border-green-700 whitespace-normal;
+}

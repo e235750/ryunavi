@@ -11,7 +11,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className='bg-gray-50 w-screen h-screen'>
-          <div className='relative w-full h-screen max-w-[420px] bg-white mx-auto my-0 overflow-hidden'>
+          <div className='relative w-full h-screen max-w-[420px] bg-white mx-auto my-0 '>
             <Header />
             {children}
             <Footer />

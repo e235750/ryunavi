@@ -1,0 +1,3 @@
+.scroll-bar::-webkit-scrollbar {
+  @apply hidden w-0;
+}
