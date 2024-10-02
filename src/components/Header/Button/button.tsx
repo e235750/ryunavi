@@ -6,7 +6,7 @@ interface Props {
     setActive: (active: boolean) => void
 }
 
-const button = ({ setActive, position }: Props) => {
+const Button = ({ setActive, position }: Props) => {
     const buttonRef = useRef<HTMLButtonElement>(null)
     const bar1Ref = useRef<HTMLDivElement>(null)
     const bar2Ref = useRef<HTMLDivElement>(null)
@@ -39,4 +39,4 @@ const button = ({ setActive, position }: Props) => {
   )
 }
 
-export default button
+export default Button
