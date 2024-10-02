@@ -91,5 +91,4 @@ export async function GET() {
         console.error(error);
         return new Response('Internal Server Error', { status: 500 });
     }
-    return "test"
 }
