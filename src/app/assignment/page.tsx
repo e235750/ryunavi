@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import db from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import ItemCard from '@/components/webclass/item-card'
-import { report } from 'process';
 
 interface Items {
     endDate: [string, string, string];
