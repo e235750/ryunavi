@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import db from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import ItemCard from '@/components/webclass/item-card'
+import { report } from 'process';
 
 interface Items {
     endDate: [string, string, string];
@@ -34,6 +35,7 @@ const Page = () => {
         development: 'all',
         sort: 'date-added'
     });
+    const [reportCard, setReportCardState] = useState<React.JSX.Element[]>([]);
 
 
     const getReportData = async () => {
@@ -51,7 +53,10 @@ const Page = () => {
     useEffect(() => {
         getReportData()
     }, [])
-    console.log(reportData)
+
+    useEffect(() => {
+        setReportCard()
+    }, [reportData, sortOption])
 
 
     const handleDisplayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -74,7 +79,7 @@ const Page = () => {
     }
 
     const setReportCard = () => {
-        let reportCard: React.JSX.Element[] = []
+        const reportCard: React.JSX.Element[] = []
         Object.keys(reportData).forEach((lectureName) => {
             const { report, selfLearning } = reportData[lectureName];
 
@@ -114,7 +119,7 @@ const Page = () => {
             );
             });
         });
-        return reportCard
+        setReportCardState(reportCard);
     }
     return (
         <>
@@ -142,7 +147,7 @@ const Page = () => {
                 </select>
             </div>
             <div className='overflow-y-scroll h-[calc(80%-64px)]'>
-                {setReportCard()}
+                {reportCard}
             </div>
         </>
     )

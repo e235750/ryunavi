@@ -1,7 +1,6 @@
 import * as cheerio from 'cheerio'; 
 import puppeteer from 'puppeteer';
 import dotenv from 'dotenv';
-import { title } from 'process';
 dotenv.config();
 
 const scraping = async (loginID, loginPassword) => {
