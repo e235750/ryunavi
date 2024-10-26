@@ -9,7 +9,7 @@ interface Props {
 
 const LectureCard = ({ lectureName, place, lectureCode }: Props) => {
     return (
-        <Link href={`syllabus/${lectureCode}`} className="block relative w-full max-h-28 min-h-20 rounded-sm bg-blue-300 overflow-hidden my-1">
+        <Link href={`syllabus/${lectureCode}`} className="block relative w-full max-h-28 min-h-16 h-4/5 rounded-sm bg-blue-300 overflow-hidden my-1">
             <div className="relative flex justify-center items-center text-center w-full h-3/5 mt-2 overflow-y-scroll">
                 <div className="w-11/12 text-xs">{lectureName}</div>
             </div>
