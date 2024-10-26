@@ -12,14 +12,6 @@ export async function GET() {
 
         const data = await scraping(loginID, loginPassword); // scraping関数を呼び出す
         if (data) {
-            // for (let day in data) {
-            //     for(let period in data[day]){
-            //         for(let item in data[day][period]){
-            //             console.log(data[day][period][item]);
-            //         }
-            //     }
-            // }
-
             const userDocRef = doc(collection(db, loginID), "academic-infomation")
             const subCollectionRef = doc(collection(userDocRef, "academic-infomation"), "basic-data")
 

@@ -75,9 +75,11 @@ const Page = () => {
     }
 
     useEffect(() => {
+        // fetch("api/academic-infomation")
+        // fetch("api/syllabus")
         getLectureData()
     }, [])
-    
+
   return (
     <table className='table'>
         <thead>
@@ -105,12 +107,14 @@ const Page = () => {
                     </td>
                     {[...Array(6)].map((_, i) => {
                         const lecture = lectureBasicData[(i).toString()]?.[(index+1).toString()];
+                        const lecture2 = lectureBasicData[(i).toString()]?.[(index+1).toString()+"_02"];
                         const lectureCode = lecture ? lecture.lectureCode : '';
                         const place = lectureSyllabusData ? lectureSyllabusData[lectureCode]?.lectureRoom.replace(/\[.*?\]/g, "") : '';
-                        
+
                         return (
                             <td key={i} className='table-td'>
-                                {lecture ? <LectureCard lectureName={lecture.lectureName} place={place} lectureCode={lectureCode} /> : null}
+                                {lecture ? <LectureCard lectureName={lecture.lectureName} place={place} lectureCode={lectureCode} />  : null}
+                                {lecture2 ? <LectureCard lectureName={lecture2.lectureName} place={place} lectureCode={lecture2.lectureCode} /> : null}
                             </td>
                         );
                     })}

@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio'; 
 import puppeteer from 'puppeteer';
 import dotenv from 'dotenv';
+import { title } from 'process';
 dotenv.config();
 
 const scraping = async (loginID, loginPassword) => {
@@ -35,11 +36,11 @@ const scraping = async (loginID, loginPassword) => {
 
         //ログイン
         try {
-        await page.goto(loginURL);
+            await page.goto(loginURL);
         } catch (error) {
-        console.error('Error navigating to login page:', error);
-        await browser.close();
-        return;
+            console.error('Error navigating to login page:', error);
+            await browser.close();
+            return;
         }
 
         await page.type('#txtID', loginID);
@@ -52,11 +53,11 @@ const scraping = async (loginID, loginPassword) => {
 
         //ログイン後のTopページに遷移
         try {
-        await page.goto(topURL);
+            await page.goto(topURL);
         } catch (error) {
-        console.error('Error navigating to top page:', error);
-        await browser.close();
-        return;
+            console.error('Error navigating to top page:', error);
+            await browser.close();
+            return;
         }
 
         await Promise.all([
@@ -73,17 +74,18 @@ const scraping = async (loginID, loginPassword) => {
 
         //科目リストページに遷移
         try {
-        await page.goto(timeTableURL);
+            await page.goto(timeTableURL);
         } catch (error) {
-        console.error('Error navigating to time table page:', error);
-        await browser.close();
-        return;
+            console.error('Error navigating to time table page:', error);
+            await browser.close();
+            return;
         }
 
         const html = await page.content();
         if(!html) {
             throw new Error('HTML data is undefined or null');
         }
+        await browser.close();
 
         let $ = cheerio.load(html);
         const weekday = [{'Mon': 1}, {'Tue': 2}, {'Wed': 3}, {'Thu': 4}, {'Fri': 5}, {'Sat': 6}];
@@ -93,33 +95,49 @@ const scraping = async (loginID, loginPassword) => {
         for(let date of weekday) {
         const day = Object.keys(date)[0];
         const dayNum = Object.values(date)[0];
-        const dayData = {}
+        const dayData = {};
         for (let period = 1; period <= 6; period++) {
-        //科目名の取得
-        const selector = `#ctl00_phContents_rrMain_ttTable_lct${day}${period}_ctl00_lblSbjName`;
-        const element = $(selector);
-        if(element.text().length > 1) {
-        //科目番号の取得
-        const selector2 = `#ctl00_phContents_rrMain_ttTable_lct${day}${period}_ctl00_lblLctCd`;
-        const element2 = $(selector2);
+            // 科目名の取得
+            const selectorLectureName = `#ctl00_phContents_rrMain_ttTable_lct${day}${period}_ctl00_lblSbjName`;
+            const selectorLectureName2 = `#ctl00_phContents_rrMain_ttTable_lct${day}${period}_ctl02_lblSbjName`;
+            const elementName = $(selectorLectureName);
+            const elementName2 = $(selectorLectureName2);
+            console.log(elementName2.text());
+            if (elementName.text().length > 1) {
+                // 科目番号の取得
+                const selectorLectureCode = `#ctl00_phContents_rrMain_ttTable_lct${day}${period}_ctl00_lblLctCd`;
+                const elementLectureCode = $(selectorLectureCode);
 
-        const syllabusUrl = `https://tiglon.jim.u-ryukyu.ac.jp/portal/Public/Syllabus/DetailMain.aspx?lct_year=2024&lct_cd=${element2.text()}&je_cd=1`;
-        //dataをlecturesDataに追加
-        dayData[period] = { lectureName: element.text(), syllabusUrl: syllabusUrl, lectureCode: element2.text()}; 
-        };
+                const syllabusUrl = `https://tiglon.jim.u-ryukyu.ac.jp/portal/Public/Syllabus/DetailMain.aspx?lct_year=2024&lct_cd=${elementLectureCode.text()}&je_cd=1`;
+
+                // dataをlecturesDataに追加
+                dayData[period - 1] = {
+                    lectureName: elementName.text(),
+                    syllabusUrl: syllabusUrl,
+                    lectureCode: elementLectureCode.text()
+                };
+
+                if (elementName2.text().length > 1) {
+                    const selectorLectureCode2 = `#ctl00_phContents_rrMain_ttTable_lct${day}${period}_ctl02_lblLctCd`;
+                    const elementLectureCode2 = $(selectorLectureCode2);
+                    const syllabusUrl = `https://tiglon.jim.u-ryukyu.ac.jp/portal/Public/Syllabus/DetailMain.aspx?lct_year=2024&lct_cd=${elementLectureCode2.text()}&je_cd=1`;
+
+                    dayData[`${period - 1}_02`] = {
+                        lectureName: elementName2.text(),
+                        syllabusUrl: syllabusUrl,
+                        lectureCode: elementLectureCode2.text(),
+                    };
+                }
+            }
         }
-        lecturesData[dayNum-1] = dayData;
-        }
-
-        await browser.close();
-
+        lecturesData[dayNum - 1] = dayData;
+    }
         return lecturesData;
     } catch (error) {
         console.error('Error:', error);
         await browser.close();
         return {};
     }
-    
 }
 
 module.exports = scraping;

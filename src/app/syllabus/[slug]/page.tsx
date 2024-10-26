@@ -51,7 +51,7 @@ export default function Page({ params }: { params: {slug: string} }) {
         if(syllabusSnap.exists()) {
             const data = syllabusSnap.data()
             setLectureSyllabusData(data[params.slug])
-            
+
         } else {
             console.log("No such document!")
         }
@@ -60,13 +60,12 @@ export default function Page({ params }: { params: {slug: string} }) {
     useEffect(() => {
         getLectureData()
     }, [])
-    console.log(lectureSyllabusData)
     return (
-        <div className='overflow-hidden'>  
+        <div className='overflow-hidden'>
             <table className='w-11/12 mx-auto border table-fixed my-7'>
                 <tbody>
                     <tr><td className='table-td-header' colSpan={2}>科目名</td><td className='table-td-header' colSpan={1}>教室</td></tr>
-                    <tr><td className='table-td-contents' colSpan={2}>{String(lectureSyllabusData.lectureName)}</td><td className='table-td-contents' colSpan={1}>{String(lectureSyllabusData.lectureRoom)}</td></tr>
+                    <tr><td className='table-td-contents' colSpan={2}>{String(lectureSyllabusData.lecutureName)}</td><td className='table-td-contents' colSpan={1}>{String(lectureSyllabusData.lectureRoom)}</td></tr>
                     <tr>
                         <td className='table-td-header'>開講年</td>
                         <td className='table-td-header'>開講期間</td>
@@ -92,7 +91,7 @@ export default function Page({ params }: { params: {slug: string} }) {
 
             <div className='w-11/12 mx-auto '>
                 <section className='mb-10'>
-                    <div className='flex justify-start items-center text-xl text-green-600 font-bold'>
+                    <div className='flex justify-start items-start text-xl text-green-600 font-bold'>
                         <FaPenNib className='mr-2' color='green' size={20} />
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>授業形態</h2>
                     </div>
@@ -102,7 +101,7 @@ export default function Page({ params }: { params: {slug: string} }) {
                 </section>
 
                 <section className='mb-10'>
-                    <div className='flex justify-start items-center text-xl text-green-600 font-bold'>
+                    <div className='flex justify-start items-start  text-xl text-green-600 font-bold'>
                         <FaPenNib className='mr-2' color='green' size={20} />
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>授業内容と方法</h2>
                     </div>
@@ -112,7 +111,7 @@ export default function Page({ params }: { params: {slug: string} }) {
                 </section>
 
                 <section className='mb-10'>
-                    <div className='flex justify-start items-center text-xl text-green-600 font-bold'>
+                    <div className='flex justify-start items-start  text-xl text-green-600 font-bold'>
                         <FaPenNib className='mr-2' color='green' size={20} />
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>評価基準と評価方法</h2>
                     </div>
@@ -122,7 +121,7 @@ export default function Page({ params }: { params: {slug: string} }) {
                 </section>
 
                 <section className='mb-10'>
-                    <div className='flex justify-start items-center text-xl text-green-600 font-bold'>
+                    <div className='flex justify-start items-start  text-xl text-green-600 font-bold'>
                         <FaPenNib className='mr-2' color='green' size={20} />
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>達成目標</h2>
                     </div>
@@ -130,9 +129,9 @@ export default function Page({ params }: { params: {slug: string} }) {
                         {parse(String(lectureSyllabusData.lectureGoals))}
                     </div>
                 </section>
-                
+
                 <section className='mb-10'>
-                    <div className='flex justify-start items-center text-xl text-green-600 font-bold'>
+                    <div className='flex justify-start items-start  text-xl text-green-600 font-bold'>
                         <FaPenNib className='mr-2' color='green' size={20} />
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>履修条件</h2>
                     </div>
@@ -142,7 +141,7 @@ export default function Page({ params }: { params: {slug: string} }) {
                 </section>
 
                 <section className='mb-10'>
-                    <div className='flex justify-start items-center text-xl text-green-600 font-bold'>
+                    <div className='flex justify-start items-start  text-xl text-green-600 font-bold'>
                         <FaPenNib className='mr-2' color='green' size={20} />
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>事前学習</h2>
                     </div>
@@ -152,7 +151,7 @@ export default function Page({ params }: { params: {slug: string} }) {
                 </section>
 
                 <section className='mb-10'>
-                    <div className='flex justify-start items-center text-xl text-green-600 font-bold'>
+                    <div className='flex justify-start items-start  text-xl text-green-600 font-bold'>
                         <FaPenNib className='mr-2' color='green' size={20} />
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>教科書情報</h2>
                     </div>
@@ -162,7 +161,7 @@ export default function Page({ params }: { params: {slug: string} }) {
                 </section>
 
                 <section className='mb-10'>
-                    <div className='flex justify-start items-center text-xl text-green-600 font-bold'>
+                    <div className='flex justify-start items-start  text-xl text-green-600 font-bold'>
                         <FaPenNib className='mr-2' color='green' size={20} />
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>教科書情報備考</h2>
                     </div>
@@ -172,7 +171,7 @@ export default function Page({ params }: { params: {slug: string} }) {
                 </section>
 
                 <section className='pb-28'>
-                    <div className='flex justify-start items-center text-xl text-green-600 font-bold'>
+                    <div className='flex justify-start items-start  text-xl text-green-600 font-bold'>
                         <FaPenNib className='mr-2' color='green' size={20} />
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>メッセージ</h2>
                     </div>

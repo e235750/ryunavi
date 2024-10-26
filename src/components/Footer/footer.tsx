@@ -12,17 +12,17 @@ const Footer = () => {
                 <CiGrid41 size={"35px"} />
                 <p className="text-xs text-[#555]" >時間割</p>
             </Link>
-            <Link href="#" className="flex flex-col justify-center items-center">
+            <Link href="/assignment" className="flex flex-col justify-center items-center">
                 <MdOutlineAssignment size={"35px"}/>
                 <p className="text-xs text-[#555]" >課題</p>
             </Link>
-            <Link href="#" className="flex flex-col justify-center items-center translate-y-[-24%]">
-                <div className="flex justify-center items-center w-20 h-20 rounded-full shadow-md bg-green-200">
+            <Link href="#" className="flex flex-col justify-center items-center translate-y-[-25%]">
+                <div className="flex justify-center items-center w-20 h-20 rounded-full shadow-md bg-green-300">
                         <IoHomeOutline size={"40px"} color={"green"} />
                 </div>
                 <p className="text-xs text-[#555] mt-1">ホーム</p>
             </Link>
-            <Link href="#" className="flex flex-col justify-center items-center">
+            <Link href="/webclass" className="flex flex-col justify-center items-center">
                 <LiaSchoolSolid size={"35px"}/>
                 <p className="text-xs text-[#555]" >WebClass</p>
             </Link>
