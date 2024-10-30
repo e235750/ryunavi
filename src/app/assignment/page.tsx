@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import db from '../../firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import ItemCard from '@/components/webclass/item-card'
+import Setting from '@/components/Assignment/setting'
+import { HiAdjustments } from "react-icons/hi";
 
 interface Items {
     endDate: [string, string, string];
@@ -32,10 +34,11 @@ const Page = () => {
     const [sortOption, setSortOption] = useState<SortOption>({
         display: 'all',
         development: 'all',
-        sort: 'date-added'
+        sort: 'date-added',
+        target: 'レポート'
     });
-    const [reportCard, setReportCardState] = useState<React.JSX.Element[]>([]);
-
+    const [reportCard, setReportCardState] = useState<{card: React.JSX.Element, complete: boolean, cardNumber: number}[]>([]);
+    const [visible, setVisible] = useState<boolean>(false);
 
     const getReportData = async () => {
         const userID = process.env.NEXT_PUBLIC_LOGIN_ID
@@ -55,8 +58,8 @@ const Page = () => {
 
     useEffect(() => {
         setReportCard()
+        console.log(sortOption)
     }, [reportData, sortOption])
-
 
     const handleDisplayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortOption({
@@ -76,78 +79,108 @@ const Page = () => {
             sort: e.target.value
         })
     }
+    const handleTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSortOption({
+            ...sortOption,
+            target: e.target.value
+        })
+    }
+
+    const handleOptionClick = () => {
+        setVisible(!visible)
+    }
+
+    const setComplete = (cardNumber: number, reportCard: {card: React.JSX.Element, complete: boolean, cardNumber: number}[]) => {
+        const newReportCard = reportCard.map((item) => {
+            if (item.cardNumber === cardNumber) {
+                return {
+                    ...item,
+                    complete: !item.complete
+                }
+            }
+            return item
+        })
+        console.log(newReportCard)
+        setReportCardState(newReportCard)
+    }
 
     const setReportCard = () => {
-        const reportCard: React.JSX.Element[] = []
+        const reportCard: {card: React.JSX.Element, complete: boolean, cardNumber: number}[] = []
         Object.keys(reportData).forEach((lectureName) => {
             const { report, selfLearning } = reportData[lectureName];
 
-            report.forEach((item, index) => {
-            if (sortOption.display !== "all" && item["category"] !== sortOption.display && lectureName !== sortOption.display) {
-                return;
-            }
-            reportCard.push(
-                <ItemCard
-                key={`report-${lectureName}-${index}`}
-                lectureName={lectureName}
-                endDate={item["endDate"]}
-                endTime={item["endTime"]}
-                startDate={item["startDate"]}
-                startTime={item["startTime"]}
-                reportName={item["reportName"] ? item["reportName"] : ""}
-                category={item["category"]}
-                />
-            );
+            report.forEach((item) => {
+                if (sortOption.display !== "all" && lectureName !== sortOption.display) {
+                    return;
+                }
+                if (sortOption.target !== "all" && item["category"] !== sortOption.target) {
+                    return;
+                }
+                reportCard.push({
+                    card: <ItemCard
+                        key={`report-${lectureName}-${reportCard.length}`}
+                        lectureName={lectureName}
+                        endDate={item["endDate"]}
+                        endTime={item["endTime"]}
+                        startDate={item["startDate"]}
+                        startTime={item["startTime"]}
+                        reportName={item["reportName"] ? item["reportName"] : ""}
+                        category={item["category"]}
+                        cardNumber={reportCard.length}
+                        setComplete={setComplete}
+                        reportCard={reportCard}
+                    />,
+                    complete: false,
+                    cardNumber: reportCard.length
+                });
             });
 
-            selfLearning.forEach((item, index) => {
-            if (sortOption.display !== "all" && item["category"] !== sortOption.display && lectureName !== sortOption.display) {
-                return;
-            }
-            reportCard.push(
-                <ItemCard
-                key={`selfLearning-${lectureName}-${index}`}
-                lectureName={lectureName}
-                endDate={item["endDate"]}
-                endTime={item["endTime"]}
-                startDate={item["startDate"]}
-                startTime={item["startTime"]}
-                reportName={item["selfLearningName"] ? item["selfLearningName"] : ""}
-                category={item["category"]}
-                />
-            );
+            selfLearning.forEach((item) => {
+                if (sortOption.display !== "all" && item["category"] !== sortOption.display && lectureName !== sortOption.display) {
+                    return;
+                }
+                reportCard.push({
+                    card: <ItemCard
+                        key={`report-${lectureName}-${reportCard.length}`}
+                        lectureName={lectureName}
+                        endDate={item["endDate"]}
+                        endTime={item["endTime"]}
+                        startDate={item["startDate"]}
+                        startTime={item["startTime"]}
+                        reportName={item["selfLearningName"] ? item["selfLearningName"] : ""}
+                        category={item["category"]}
+                        cardNumber={reportCard.length}
+                        setComplete={setComplete}
+                        reportCard={reportCard}
+                    />,
+                    complete: false,
+                    cardNumber: reportCard.length
+                });
             });
         });
         setReportCardState(reportCard);
     }
+
     return (
         <>
-            <div className='flex justify-around items-center w-11/12 h-16 mx-auto'>
-                <label htmlFor="display" className='font-bold'>表示:</label>
-                <select name="display" id="display" className='w-1/5 h-10 rounded-md bg-green-400 text-white font-bold text-sm shadow-md outline-none' onChange={handleDisplayChange}>
-                    <option value="レポート">レポート</option>
-                    <option value="all">全て</option>
-                    <option value="自習">自習</option>
-                    {Object.keys(reportData).map((key, index) => (
-                        <option key={index} value={key}>{key}</option>
-                    ))}
-                </select>
-                <label htmlFor="development" className='font-bold'>進歩:</label>
-                <select name="development" id="development" className='w-1/6 h-10 rounded-md bg-green-400 text-white font-bold text-sm shadow-md outline-none' onChange={handleDevelopmentChange}>
-                    <option value="all">全て</option>
-                    <option value="complete">完了</option>
-                    <option value="uncomplete">未完了</option>
-                </select>
-                <label htmlFor="sort" className='font-bold'>並べ替え:</label>
-                <select name="sort" id="sort" className='w-1/6 h-10 rounded-md bg-green-400 text-white font-bold text-sm shadow-md outline-none' onChange={handleSortChange}>
-                    <option value="date-added">追加日</option>
-                    <option value="deadline-ascending-order">締切日(昇順)</option>
-                    <option value="deadline-descending-order">締切日(降順)</option>
-                </select>
+            <div className='flex justify-end items-center leading-3 w-11/12 h-12 mx-auto mr-10'>
+                <button className="flex justify-center items-center">
+                    <div className='font-bold text-kg'>表示設定:</div>
+                    <HiAdjustments size={35} className='text-green-400 rotate-90 translate-y-[1px]' onClick={handleOptionClick} />
+                </button>
             </div>
             <div className='overflow-y-scroll h-[calc(80%-64px)]'>
-                {reportCard}
+                {reportCard.map((item) => item.card)}
             </div>
+            <Setting
+                handleDisplayChange={handleDisplayChange}
+                handleDevelopmentChange={handleDevelopmentChange}
+                handleSortChange={handleSortChange}
+                handleTargetChange={handleTargetChange}
+                handleOptionClick={handleOptionClick}
+                reportData={reportData}
+                visible={visible}
+            />
         </>
     )
 }

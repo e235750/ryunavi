@@ -8,12 +8,15 @@ interface Items {
     startTime: [string, string];
     reportName: string;
     category: string;
+    cardNumber: number;
+    setComplete: (cardNumber: number, reportCard: {card: React.JSX.Element, complete: boolean, cardNumber: number}[]) => void;
+    reportCard: { card: JSX.Element, complete: boolean, cardNumber: number }[];
 }
 
-const ItemCard = ({ lectureName, endDate, startDate, endTime, startTime, reportName, category }: Items) => {
+const ItemCard = ({ lectureName, endDate, startDate, endTime, startTime, reportName, category, cardNumber, setComplete, reportCard }: Items) => {
     return (
         <div className="relative flex flex-col justify-around w-11/12 h-24 bg-gray-50 shadow-md mx-auto rounded-md my-2">
-            <button className="absolute flex justify-center items-center w-8 h-8 bg-white rounded-md top-2 right-2 text-[#666] opacity-60">
+            <button className="absolute flex justify-center items-center w-8 h-8 bg-white rounded-md top-2 right-2 text-[#666] opacity-60" onClick={() => setComplete(cardNumber, reportCard)}>
                 <FaCheck color="gray" size={20} />
             </button>
             <input type="text" className="text-xs text-[#666] w-11/12 mx-auto rouded-md bg-transparent" disabled value={lectureName} />
