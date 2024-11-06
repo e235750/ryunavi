@@ -9,8 +9,8 @@ interface Items {
     reportName: string;
     category: string;
     cardNumber: number;
-    setComplete: (cardNumber: number, reportCard: {card: React.JSX.Element, complete: boolean, cardNumber: number}[]) => void;
-    reportCard: { card: JSX.Element, complete: boolean, cardNumber: number }[];
+    setComplete: (cardNumber: number, reportCard: {card: React.JSX.Element, complete: boolean, cardNumber: number, date: Date}[]) => void;
+    reportCard: { card: JSX.Element, complete: boolean, cardNumber: number, date: Date}[];
 }
 
 const ItemCard = ({ lectureName, endDate, startDate, endTime, startTime, reportName, category, cardNumber, setComplete, reportCard }: Items) => {

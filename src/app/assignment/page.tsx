@@ -34,10 +34,10 @@ const Page = () => {
     const [sortOption, setSortOption] = useState<SortOption>({
         display: 'all',
         development: 'all',
-        sort: 'date-added',
+        sort: 'deadline-ascending-order',
         target: 'レポート'
     });
-    const [reportCard, setReportCardState] = useState<{card: React.JSX.Element, complete: boolean, cardNumber: number}[]>([]);
+    const [reportCard, setReportCardState] = useState<{card: React.JSX.Element, complete: boolean, cardNumber: number, date: Date}[]>([]);
     const [visible, setVisible] = useState<boolean>(false);
 
     const getReportData = async () => {
@@ -90,7 +90,7 @@ const Page = () => {
         setVisible(!visible)
     }
 
-    const setComplete = (cardNumber: number, reportCard: {card: React.JSX.Element, complete: boolean, cardNumber: number}[]) => {
+    const setComplete = (cardNumber: number, reportCard: {card: React.JSX.Element, complete: boolean, cardNumber: number, date: Date}[]) => {
         const newReportCard = reportCard.map((item) => {
             if (item.cardNumber === cardNumber) {
                 return {
@@ -105,15 +105,14 @@ const Page = () => {
     }
 
     const setReportCard = () => {
-        const reportCard: {card: React.JSX.Element, complete: boolean, cardNumber: number}[] = []
+        const reportCard: {card: React.JSX.Element, complete: boolean, cardNumber: number, date: Date}[] = []
         Object.keys(reportData).forEach((lectureName) => {
             const { report, selfLearning } = reportData[lectureName];
-
             report.forEach((item) => {
-                if (sortOption.display !== "all" && lectureName !== sortOption.display) {
+                if (sortOption.target !== "all" && sortOption.target !== "レポート") {
                     return;
                 }
-                if (sortOption.target !== "all" && item["category"] !== sortOption.target) {
+                if (sortOption.display !== "all" && lectureName !== sortOption.display) {
                     return;
                 }
                 reportCard.push({
@@ -131,12 +130,16 @@ const Page = () => {
                         reportCard={reportCard}
                     />,
                     complete: false,
-                    cardNumber: reportCard.length
+                    cardNumber: reportCard.length,
+                    date: new Date(`${item["endDate"][0]}-${item["endDate"][1]}-${item["endDate"][2]}T${item["endTime"][0]}:${item["endTime"][1]}`)
                 });
             });
 
             selfLearning.forEach((item) => {
-                if (sortOption.display !== "all" && item["category"] !== sortOption.display && lectureName !== sortOption.display) {
+                if (sortOption.target !== "all" && sortOption.target !== "自習") {
+                    return;
+                }
+                if (sortOption.display !== "all" && lectureName !== sortOption.display) {
                     return;
                 }
                 reportCard.push({
@@ -154,10 +157,19 @@ const Page = () => {
                         reportCard={reportCard}
                     />,
                     complete: false,
-                    cardNumber: reportCard.length
+                    cardNumber: reportCard.length,
+                    date: new Date(`${item["endDate"][0]}-${item["endDate"][1]}-${item["endDate"][2]}T${item["endTime"][0]}:${item["endTime"][1]}`)
                 });
             });
         });
+        const sort = sortOption.sort === "deadline-ascending-order" ? 1 : -1;
+        reportCard.sort((a, b) => {
+            let result = a.date.getTime() - b.date.getTime();
+            return result * sort;
+        });
+        // reportCard.forEach((item, index) => {
+        //     console.log(item.card.props.category)
+        // })
         setReportCardState(reportCard);
     }
 
@@ -180,6 +192,7 @@ const Page = () => {
                 handleOptionClick={handleOptionClick}
                 reportData={reportData}
                 visible={visible}
+                target={sortOption.target}
             />
         </>
     )
