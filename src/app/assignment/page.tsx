@@ -164,7 +164,7 @@ const Page = () => {
         });
         const sort = sortOption.sort === "deadline-ascending-order" ? 1 : -1;
         reportCard.sort((a, b) => {
-            let result = a.date.getTime() - b.date.getTime();
+            const result = a.date.getTime() - b.date.getTime();
             return result * sort;
         });
         // reportCard.forEach((item, index) => {
