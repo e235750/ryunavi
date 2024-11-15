@@ -55,10 +55,9 @@ const Page = () => {
     useEffect(() => {
         getReportData()
     }, [])
-
+    console.log(reportData)
     useEffect(() => {
         setReportCard()
-        console.log(sortOption)
     }, [reportData, sortOption])
 
     const handleDisplayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

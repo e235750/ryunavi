@@ -16,9 +16,9 @@ const Footer = () => {
                 <MdOutlineAssignment size={"35px"}/>
                 <p className="text-xs text-[#555]" >課題</p>
             </Link>
-            <Link href="#" className="flex flex-col justify-center items-center translate-y-[-25%]">
-                <div className="flex justify-center items-center w-20 h-20 rounded-full shadow-md bg-green-300">
-                        <IoHomeOutline size={"40px"} color={"green"} />
+            <Link href="#" className="flex flex-col justify-center items-center translate-y-[-18%]">
+                <div className="flex justify-center items-center w-14 h-14 rounded-full shadow-md bg-green-300">
+                        <IoHomeOutline size={"35px"} color={"green"} />
                 </div>
                 <p className="text-xs text-[#555] mt-1">ホーム</p>
             </Link>

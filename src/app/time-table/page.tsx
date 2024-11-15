@@ -106,8 +106,8 @@ const Page = () => {
                         <div className='w-10 text-sm text-[#666] text-center'>{end}</div>
                     </td>
                     {[...Array(6)].map((_, i) => {
-                        const lecture = lectureBasicData[(i).toString()]?.[(index+1).toString()];
-                        const lecture2 = lectureBasicData[(i).toString()]?.[(index+1).toString()+"_02"];
+                        const lecture = lectureBasicData[(i).toString()]?.[(index).toString()];
+                        const lecture2 = lectureBasicData[(i).toString()]?.[(index).toString()+"_02"];
                         const lectureCode = lecture ? lecture.lectureCode : '';
                         const place = lectureSyllabusData ? lectureSyllabusData[lectureCode]?.lectureRoom.replace(/\[.*?\]/g, "") : '';
 

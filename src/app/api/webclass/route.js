@@ -1,4 +1,4 @@
-import * as cheerio from 'cheerio'; 
+import * as cheerio from 'cheerio';
 import puppeteer from 'puppeteer';
 import db from "../../../firebase"
 import { doc, setDoc, collection } from "firebase/firestore";

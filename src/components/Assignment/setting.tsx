@@ -33,7 +33,7 @@ interface Props {
 const Setting = ({ handleDevelopmentChange, handleDisplayChange, handleSortChange, handleTargetChange, handleOptionClick , reportData, visible, target}: Props) => {
 
     return (
-        <div className={`fixed flex flex-col justify-around top-28 left-1/2 translate-x-[-50%] w-2/3 min-w-52 max-w-64 h-[40%] rounded-md bg-gray-50 shadow-xl duration-100 ${visible ? 'block' : 'hidden'}`}>
+        <div className={`fixed flex flex-col justify-around top-28 left-1/2 translate-x-[-50%] w-2/3 min-w-52 max-w-64 h-[45%] rounded-md bg-gray-50 shadow-xl duration-100 ${visible ? 'block' : 'hidden'}`}>
                 <label htmlFor="display" className='font-bold text-green-400 text-2xl ml-2 mt-3 leading-4'>表示</label>
                 <div className='flex justify-start items-center gap-x-5 flex-wrap mt-1'>
                     <input
