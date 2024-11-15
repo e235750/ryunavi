@@ -18,7 +18,7 @@ export async function GET() {
                 }
             }
         }
-        
+
         //講義情報の取得
         const lecturesData = {}
         for(let url of urls){

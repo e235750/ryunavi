@@ -37,7 +37,8 @@ export async function GET() {
         const loginURL = process.env.WEBCLASS_LOGIN_URL;
 
         // トップページのURL（後期のwebclassはコンテンツ量が少ないため、前期のページ）
-        const topURL = process.env.WEBCLASS_TOP_URL + "/index.php?year=2024&semester=1";
+        // const topURL = process.env.WEBCLASS_TOP_URL + "/index.php?year=2024&semester=1";
+        const topURL = process.env.WEBCLASS_TOP_URL;
         if (!loginURL || !topURL) {
             throw new Error('Login URL or Top URL is not defined');
         }
