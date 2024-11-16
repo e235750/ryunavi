@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Footer = () => {
     return (
-        <div className="fixed flex justify-around items-center bottom-0 w-screen h-20 bg-white shadow-lg">
+        <div className="fixed flex justify-around items-center bottom-0 w-screen max-w-[420px] h-20 bg-white shadow-lg">
             <Link href="/time-table" className="flex flex-col justify-center items-center">
                 <CiGrid41 size={"35px"} />
                 <p className="text-xs text-[#555]" >時間割</p>

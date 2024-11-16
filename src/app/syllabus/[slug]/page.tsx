@@ -116,7 +116,7 @@ export default function Page({ params }: { params: {slug: string} }) {
                         <h2 className='relative pr-4 after:absolute after:right-1 after:bottom-[5px] after:w-0.5 after:h-4 after:bg-green-600 before:absolute before:right-2 before:bottom-[5px] before:w-0.5 before:h-3 before:bg-green-600 mb-2'>評価基準と評価方法</h2>
                     </div>
                     <div className='w-11/12 mx-auto link'>
-                        {parse(String(lectureSyllabusData.lecturePlan))}
+                        {parse(String(lectureSyllabusData.evaluationMethod))}
                     </div>
                 </section>
 

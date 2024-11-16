@@ -103,7 +103,7 @@ export async function GET() {
                 const categoryLabel = $(elm).find(".cl-contentsList_categoryLabel").text();
                 const contentName = $(elm).find(".cm-contentsList_contentName").text();
                 const deadline = $(elm).find(".cm-contentsList_contentDetailListItemData").text();
-            
+
                 if (categoryLabel === "自習") {
                     const selfLearningData = {
                         selfLearningName: contentName,
@@ -113,7 +113,6 @@ export async function GET() {
                         endDate: [],
                         endTime: [],
                     };
-            
                     if (deadline) {
                         const dateData = deadline.split("-");
                         const [startDateStr, endDateStr] = dateData.map((d) => d.trim().split(" "));
