@@ -100,52 +100,49 @@ export async function GET() {
             const lectureName =  $(".course-name").text()
             const contentInfo = $(".cl-contentsList_contentInfo")
             contentInfo.each((i, elm) => {
-                if($(elm).find(".cl-contentsList_categoryLabel").text() === "自習") {
-                    const selfLearningName = $(elm).find(".cm-contentsList_contentName").text()
-                    const deadline = $(elm).find(".cm-contentsList_contentDetailListItemData").text()
-                    let startDate = []
-                    let startTime = []
-                    let endDate = []
-                    let endTime = []
-                    if(deadline) {
-                        const dateData = deadline.split("-")
-                        startDate = dateData[0].trim().split(" ")[0].split("/")
-                        startTime = dateData[0].trim().split(" ")[1].split(":")
-                        endDate = dateData[1].trim().split(" ")[0].split("/")
-                        endTime = dateData[1].trim().split(" ")[1].split(":")
-                    }
+                const categoryLabel = $(elm).find(".cl-contentsList_categoryLabel").text();
+                const contentName = $(elm).find(".cm-contentsList_contentName").text();
+                const deadline = $(elm).find(".cm-contentsList_contentDetailListItemData").text();
+            
+                if (categoryLabel === "自習") {
                     const selfLearningData = {
-                        selfLearningName: selfLearningName,
+                        selfLearningName: contentName,
                         category: "自習",
-                        startDate: startDate,
-                        startTime: startTime,
-                        endDate: endDate,
-                        endTime: endTime
+                        startDate: [],
+                        startTime: [],
+                        endDate: [],
+                        endTime: [],
+                    };
+            
+                    if (deadline) {
+                        const dateData = deadline.split("-");
+                        const [startDateStr, endDateStr] = dateData.map((d) => d.trim().split(" "));
+                        selfLearningData.startDate = startDateStr[0]?.split("/") || [];
+                        selfLearningData.startTime = startDateStr[1]?.split(":") || [];
+                        selfLearningData.endDate = endDateStr[0]?.split("/") || [];
+                        selfLearningData.endTime = endDateStr[1]?.split(":") || [];
                     }
-                    selfLearning.push(selfLearningData)
-                }
-                else if ($(elm).find(".cl-contentsList_categoryLabel").text() === "レポート") {
-                    const reportName = $(elm).find(".cm-contentsList_contentName").text()
-                    const deadline = $(elm).find(".cm-contentsList_contentDetailListItemData").text()
-                    if(deadline) {
-
-                    }
-                    const dateData = deadline.split("-")
-                    const startDate = dateData[0].trim().split(" ")[0].split("/")
-                    const startTime = dateData[0].trim().split(" ")[1].split(":")
-                    const endDate = dateData[1].trim().split(" ")[0].split("/")
-                    const endTime = dateData[1].trim().split(" ")[1].split(":")
+                    selfLearning.push(selfLearningData);
+                } else if (categoryLabel === "レポート") {
                     const reportData = {
-                        reportName: reportName,
+                        reportName: contentName,
                         category: "レポート",
-                        startDate: startDate,
-                        startTime: startTime,
-                        endDate: endDate,
-                        endTime: endTime
+                        startDate: [],
+                        startTime: [],
+                        endDate: [],
+                        endTime: [],
+                    };
+                    if (deadline) {
+                        const dateData = deadline.split("-");
+                        const [startDateStr, endDateStr] = dateData.map((d) => d.trim().split(" "));
+                        reportData.startDate = startDateStr[0]?.split("/") || [];
+                        reportData.startTime = startDateStr[1]?.split(":") || [];
+                        reportData.endDate = endDateStr[0]?.split("/") || [];
+                        reportData.endTime = endDateStr[1]?.split(":") || [];
                     }
-                   report.push(reportData)
+                    report.push(reportData);
                 }
-            })
+            });
             lectuterData[lectureName] = {report: report, selfLearning: selfLearning}
 
             const userRef = doc(collection(db, userID), "webclass")
