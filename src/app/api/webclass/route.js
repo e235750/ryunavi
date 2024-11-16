@@ -13,7 +13,7 @@ export async function GET() {
         }
 
         browser = await puppeteer.launch({
-            headless: true,
+            headless: false,
             slowMo: 0,
             args: [
                 '--disable-dev-shm-usage',
