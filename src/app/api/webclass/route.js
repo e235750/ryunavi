@@ -16,8 +16,6 @@ export async function GET() {
             headless: true,
             slowMo: 0,
             args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
                 '--disable-dev-shm-usage',
                 '--disable-accelerated-2d-canvas',
                 '--disable-gpu',
@@ -49,7 +47,9 @@ export async function GET() {
             page.waitForNavigation({ waitUntil: 'networkidle2' })
         } catch (error) {
             console.error('Error navigating to login page:', error);
-            await browser.close();
+            if(browser) {
+                await browser.close();
+            }
             return new Response('Error navigating to login page', { status: 500 });
         }
 
@@ -66,7 +66,9 @@ export async function GET() {
             await page.goto(topURL);
         } catch (error) {
             console.error('Error navigating to top page:', error);
-            await browser.close();
+            if(browser) {
+                await browser.close();
+            }
             return new Response('Error navigating to top page', { status: 500 });
         }
 
@@ -91,7 +93,9 @@ export async function GET() {
                 console.error('Error fetching HTML for URL:', url, error);
             }
         }
-        await browser.close();
+        if(browser) {
+            await browser.close();
+        }
         const lectuterData = {}
         htmls.forEach(html => {
             const report = []
