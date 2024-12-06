@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import Button from "./Button/button";
+import Button from "./Button/Button";
 import { IconContext } from "react-icons";
 import { GoBell } from "react-icons/go";
 import MenuList from "./Button/MenuList/menu-list";

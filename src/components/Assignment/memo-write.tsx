@@ -18,8 +18,10 @@ const MemoWrite = ({ className, handleMemoAdd, lectureName, reportName, ...props
             return
         }
         const userRef = doc(db, userID, "assignment")
-        const lectureRef = collection(userRef, lectureName)
-        const reportRef = doc(lectureRef, reportName)
+        const memoRef = collection(userRef, "memo")
+        const lectureRef = doc(memoRef, lectureName)
+        const lectureDoc = collection(lectureRef, "report")
+        const reportRef = doc(lectureDoc, reportName)
         const reportSnap = await getDoc(reportRef)
         if(reportSnap.exists()) {
             const data = reportSnap.data()
@@ -34,8 +36,10 @@ const MemoWrite = ({ className, handleMemoAdd, lectureName, reportName, ...props
             return
         }
         const userRef = doc(db, userID, "assignment")
-        const lectureRef = collection(userRef, lectureName)
-        const reportRef = doc(lectureRef, reportName)
+        const memoRef = collection(userRef, "memo")
+        const lectureRef = doc(memoRef, lectureName)
+        const lectureDoc = collection(lectureRef, "report")
+        const reportRef = doc(lectureDoc, reportName)
         const memo = document.querySelector('textarea')?.value
         if(!memo) {
             return

@@ -7,7 +7,7 @@ export async function GET() {
         const loginID = process.env.LOGIN_ID
         const loginPassword = process.env.LOGIN_PASSWORD
         if(loginID === undefined || loginPassword === undefined) {
-            return new Response('Login ID or Password is not defined', { status: 500 }); // エラー時のレスポンス
+            return new Response(JSON.stringify('Login ID or Password is not defined'), { status: 500 }); // エラー時のレスポンス
         }
 
         const data = await scraping(loginID, loginPassword); // scraping関数を呼び出す
@@ -17,12 +17,12 @@ export async function GET() {
 
             await setDoc(subCollectionRef, data)
 
-            return new Response({message: "data save completed"}, { status: 200 }); // 成功時のレスポンス
+            return new Response(JSON.stringify("data save completed"), { status: 200 }); // 成功時のレスポンス
         } else {
-            return new Response('No data available', { status: 404 }); // データがない場合のレスポンス
+            return new Response(JSON.stringify('No data available'), { status: 404 }); // データがない場合のレスポンス
         }
     } catch (error) {
         console.error(error);
-        return new Response('Internal Server Error', { status: 500 }); // エラー時のレスポンス
+        return new Response(JSON.stringify('Internal Server Error'), { status: 500 }); // エラー時のレスポンス
     }
 }

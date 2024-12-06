@@ -23,6 +23,8 @@ interface Items {
 
 const Page = ({ params }: { params: {slug: string} }) => {
     const report = decodeURI(params.slug);
+    //スラッシュ(/)がエンコードされている可能性があるためデコード
+    const reportDecodeCompleted = decodeURIComponent(params.slug);
     const [lectureData, setLectureData] = useState<Items>({
         endDate: ['','',''],
         startDate: ['','',''],
@@ -75,9 +77,11 @@ const Page = ({ params }: { params: {slug: string} }) => {
             console.error("ユーザーIDまたは講義名が無効です");
             return;
         }
-        const userRef = doc(db, userID, "assignment");
-        const lectureRef = collection(userRef, lecture);
-        const reportRef = doc(lectureRef, report);
+        const userRef = doc(db, userID, "assignment")
+        const memoRef = collection(userRef, "memo")
+        const lectureRef = doc(memoRef, lecture)
+        const lectureDoc = collection(lectureRef, "report")
+        const reportRef = doc(lectureDoc, report)
         try {
             const reportSnap = await getDoc(reportRef);
             if (reportSnap.exists()) {
@@ -132,7 +136,7 @@ const Page = ({ params }: { params: {slug: string} }) => {
                         <div className='text-xl text-green-400 font-bold mt-2 ml-1'>レポート情報</div>
                     </div>
                     <div className='w-full h-[1px] mx-auto bg-gray-200 mb-2'></div>
-                    <div className='w-11/12 mx-auto font-bold text-3xl'><input className='bg-transparent' type="text" value={report} disabled /></div>
+                    <div className='w-11/12 mx-auto font-bold text-3xl'><input className='bg-transparent' type="text" value={reportDecodeCompleted} disabled /></div>
                     <div className='self-end w-fit mr-3 font-bold text-gray-500 leading-4'>{basicData.category}</div>
                     <div className='flex justify-start items-center ml-4'>
                         <IoTimeSharp className='text-red-400 text-2xl mt-2'/>

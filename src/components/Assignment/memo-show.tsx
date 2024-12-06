@@ -19,8 +19,10 @@ const MemoShow = ({ className, handleMemoShow, content, lectureName, reportName,
             return
         }
         const userRef = doc(db, userID, "assignment")
-        const lectureRef = collection(userRef, lectureName)
-        const reportRef = doc(lectureRef, reportName)
+        const memoRef = collection(userRef, "memo")
+        const lectureRef = doc(memoRef, lectureName)
+        const lectureDoc = collection(lectureRef, "report")
+        const reportRef = doc(lectureDoc, reportName)
         const reportSnap = await getDoc(reportRef)
         if(reportSnap.exists()) {
             const data = reportSnap.data()
@@ -36,8 +38,10 @@ const MemoShow = ({ className, handleMemoShow, content, lectureName, reportName,
             return
         }
         const userRef = doc(db, userID, "assignment")
-        const lectureRef = collection(userRef, lectureName)
-        const reportRef = doc(lectureRef, reportName)
+        const memoRef = collection(userRef, "memo")
+        const lectureRef = doc(memoRef, lectureName)
+        const lectureDoc = collection(lectureRef, "report")
+        const reportRef = doc(lectureDoc, reportName)
         const newMemos = memos.filter((memo: {id: string, content: string}) => memo.id !== memoID)
         await setDoc(reportRef, {memo: newMemos})
         handleMemoShow()

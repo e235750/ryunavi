@@ -11,7 +11,7 @@ const Page = () => {
 
     return (
         <div>
-            Page
+            ああああ
         </div>
     );
 }

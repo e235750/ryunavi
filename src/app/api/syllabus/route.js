@@ -86,9 +86,9 @@ export async function GET() {
         const subCollectionSyllabusRef = doc(collection(userDocRef, "academic-infomation"), "syllabus-data")
         await setDoc(subCollectionSyllabusRef, lecturesData);
 
-        return new Response({message: 'syllabus data writtend'}, { status: 200 });
+        return new Response(JSON.stringify('syllabus data writtend'), { status: 200 });
     } catch (error) {
         console.error(error);
-        return new Response('Internal Server Error', { status: 500 });
+        return new Response(JSON.stringify('Internal Server Error'), { status: 500 });
     }
 }

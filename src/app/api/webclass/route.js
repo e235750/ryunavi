@@ -9,16 +9,18 @@ export async function GET() {
         const userID = process.env.LOGIN_ID;
         const password = process.env.LOGIN_PASSWORD;
         if (!userID || !password) {
-            return new Response('Login ID or Password is not defined', { status: 500 });
+            return new Response(JSON.stringify('Login ID or Password is not defined'), { status: 500 });
         }
 
         browser = await puppeteer.launch({
-            headless: false,
-            slowMo: 0,
+            headless: true, // ヘッドレスモードで起動
+            slowMo: 0,      // 遅延なし
             args: [
-                '--disable-dev-shm-usage',
-                '--disable-accelerated-2d-canvas',
-                '--disable-gpu',
+                '--no-sandbox',                // サンドボックスを無効化
+                '--disable-setuid-sandbox',    // セットUIDサンドボックスを無効化
+                '--disable-dev-shm-usage',     // `/dev/shm` の使用を無効化
+                '--disable-accelerated-2d-canvas', // 2Dキャンバスのアクセラレーションを無効化
+                '--disable-gpu',               // GPUの使用を無効化（Linuxの一部環境向け）
             ],
         });
 
@@ -50,7 +52,7 @@ export async function GET() {
             if(browser) {
                 await browser.close();
             }
-            return new Response('Error navigating to login page', { status: 500 });
+            return new Response(JSON.stringify('Error navigating to login page'), { status: 500 });
         }
 
         await page.type('#username', userID);
@@ -61,6 +63,8 @@ export async function GET() {
             page.waitForNavigation({ waitUntil: 'networkidle2' }),
         ]);
 
+        const pageTitle = await page.title();
+        console.log(pageTitle);
         // トップページに遷移
         try {
             await page.goto(topURL);
@@ -69,7 +73,7 @@ export async function GET() {
             if(browser) {
                 await browser.close();
             }
-            return new Response('Error navigating to top page', { status: 500 });
+            return new Response(JSON.stringify('Error navigating to top page'), { status: 500 });
         }
 
         //講義一覧の取得
@@ -158,6 +162,6 @@ export async function GET() {
         if (browser) {
             await browser.close();
         }
-        return new Response('Internal Server Error', { status: 500 });
+        return new Response(JSON.stringify('Internal Server Error'), { status: 500 });
     }
 }

@@ -1,4 +1,4 @@
-import * as cheerio from 'cheerio'; 
+import * as cheerio from 'cheerio';
 import puppeteer from 'puppeteer';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -6,15 +6,17 @@ dotenv.config();
 const scraping = async (loginID, loginPassword) => {
     let browser;
     try {
-        browser = await puppeteer.launch({ headless: true, // headless: false はブラウザを表示する
-            slowMo: 0,
+        browser = await puppeteer.launch({
+            headless: true, // ヘッドレスモードで起動
+            slowMo: 0,      // 遅延なし
             args: [
-               '--no-sandbox',  // サンドボックスモードの無効化
-               '--disable-setuid-sandbox',
-               '--disable-dev-shm-usage',
-               '--disable-accelerated-2d-canvas',
-               '--disable-gpu'
-           ], }); 
+                '--no-sandbox',                // サンドボックスを無効化
+                '--disable-setuid-sandbox',    // セットUIDサンドボックスを無効化
+                '--disable-dev-shm-usage',     // `/dev/shm` の使用を無効化
+                '--disable-accelerated-2d-canvas', // 2Dキャンバスのアクセラレーションを無効化
+                '--disable-gpu',               // GPUの使用を無効化（Linuxの一部環境向け）
+            ],
+        });
 
         const page = await browser.newPage();
         await page.setRequestInterception(true);
@@ -50,6 +52,15 @@ const scraping = async (loginID, loginPassword) => {
         page.waitForNavigation({ waitUntil: 'networkidle2' }),
         ])
 
+        //アンケートがある場合はスキップ
+        const pageTitle = await page.title();
+        if(pageTitle === "琉球大学教務システム - アンケート確認") {
+            await Promise.all([
+            page.click('#ctl00_phContents_ucTopEnqCheck_link_lnk'),
+            page.waitForNavigation({ waitUntil: 'networkidle2' }),
+            ])
+        }
+
         //ログイン後のTopページに遷移
         try {
             await page.goto(topURL);
@@ -58,7 +69,7 @@ const scraping = async (loginID, loginPassword) => {
             await browser.close();
             return;
         }
-
+        const toptitle = await page.title();
         await Promise.all([
         page.click('#ctl00_bhHeader_ctl15_lnk'),
         page.waitForNavigation({ waitUntil: 'networkidle2' }),
@@ -101,7 +112,6 @@ const scraping = async (loginID, loginPassword) => {
             const selectorLectureName2 = `#ctl00_phContents_rrMain_ttTable_lct${day}${period}_ctl02_lblSbjName`;
             const elementName = $(selectorLectureName);
             const elementName2 = $(selectorLectureName2);
-            console.log(elementName2.text());
             if (elementName.text().length > 1) {
                 // 科目番号の取得
                 const selectorLectureCode = `#ctl00_phContents_rrMain_ttTable_lct${day}${period}_ctl00_lblLctCd`;
