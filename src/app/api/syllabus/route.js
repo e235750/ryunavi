@@ -50,7 +50,6 @@ export async function GET() {
             const message = ($("#ctl00_phContents_Detail_dcl_message_lblCategory").html() || "").replace(/&[^;]*;/g, '');
             const email = ($("#ctl00_phContents_Detail_dcl_e_mail_lblCategory").html() || "")
             const refUrl = $("#ctl00_phContents_Detail_dcl_e_mail_lblCategory a").attr("href");
-            console.log(message);
 
             const lectureData = {
                 lectureRoom: lectureRoom !== undefined ? lectureRoom : "",

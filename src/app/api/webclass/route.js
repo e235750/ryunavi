@@ -64,7 +64,6 @@ export async function GET() {
         ]);
 
         const pageTitle = await page.title();
-        console.log(pageTitle);
         // トップページに遷移
         try {
             await page.goto(topURL);

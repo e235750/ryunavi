@@ -7,14 +7,10 @@ import Link from "next/link";
 
 const Footer = () => {
     return (
-        <div className="fixed flex justify-around items-center bottom-0 w-screen max-w-[420px] h-20 bg-white shadow-lg">
+        <div className="fixed flex justify-center items-center bottom-0 w-screen max-w-[420px] h-20 bg-white shadow-lg gap-x-20">
             <Link href="/time-table" className="flex flex-col justify-center items-center">
                 <CiGrid41 size={"35px"} />
                 <p className="text-xs text-[#555]" >時間割</p>
-            </Link>
-            <Link href="/assignment" className="flex flex-col justify-center items-center">
-                <MdOutlineAssignment size={"35px"}/>
-                <p className="text-xs text-[#555]" >課題</p>
             </Link>
             <Link href="/" className="flex flex-col justify-center items-center translate-y-[-18%]">
                 <div className="flex justify-center items-center w-14 h-14 rounded-full shadow-md bg-green-300">
@@ -22,13 +18,9 @@ const Footer = () => {
                 </div>
                 <p className="text-xs text-[#555] mt-1">ホーム</p>
             </Link>
-            <Link href="/webclass" className="flex flex-col justify-center items-center">
-                <LiaSchoolSolid size={"35px"}/>
-                <p className="text-xs text-[#555]" >WebClass</p>
-            </Link>
-            <Link href="#" className="flex flex-col justify-center items-center">
-                <IoSettingsOutline size={"35px"}/>
-                <p className="text-xs text-[#555]" >設定</p>
+            <Link href="/assignment" className="flex flex-col justify-center items-center">
+                <MdOutlineAssignment size={"35px"}/>
+                <p className="text-xs text-[#555]" >課題</p>
             </Link>
         </div>
     )

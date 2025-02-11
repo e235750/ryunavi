@@ -69,7 +69,6 @@ const scraping = async (loginID, loginPassword) => {
             await browser.close();
             return;
         }
-        const toptitle = await page.title();
         await Promise.all([
         page.click('#ctl00_bhHeader_ctl15_lnk'),
         page.waitForNavigation({ waitUntil: 'networkidle2' }),
@@ -118,7 +117,6 @@ const scraping = async (loginID, loginPassword) => {
                 const elementLectureCode = $(selectorLectureCode);
 
                 const syllabusUrl = `https://tiglon.jim.u-ryukyu.ac.jp/portal/Public/Syllabus/DetailMain.aspx?lct_year=2024&lct_cd=${elementLectureCode.text()}&je_cd=1`;
-
                 // dataをlecturesDataに追加
                 dayData[period - 1] = {
                     lectureName: elementName.text(),
@@ -141,6 +139,7 @@ const scraping = async (loginID, loginPassword) => {
         }
         lecturesData[dayNum - 1] = dayData;
     }
+        console.log(lecturesData)
         return lecturesData;
     } catch (error) {
         console.error('Error:', error);

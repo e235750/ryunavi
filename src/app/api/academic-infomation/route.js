@@ -16,7 +16,6 @@ export async function GET() {
             const subCollectionRef = doc(collection(userDocRef, "academic-infomation"), "basic-data")
 
             await setDoc(subCollectionRef, data)
-
             return new Response(JSON.stringify("data save completed"), { status: 200 }); // 成功時のレスポンス
         } else {
             return new Response(JSON.stringify('No data available'), { status: 404 }); // データがない場合のレスポンス
